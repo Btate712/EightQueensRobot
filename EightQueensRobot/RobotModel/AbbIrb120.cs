@@ -48,7 +48,7 @@ public static class AbbIrb120
     private const float Axis5Offset = 0.0f; 
     private const float Axis6Offset = 3.14159f; 
     
-    public static DhChain DhChain = new(
+    public static readonly DhChain DhChain = new(
         [
             new DhLink(
                 jointType: JointType.Revolute,
