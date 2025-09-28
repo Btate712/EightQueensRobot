@@ -14,6 +14,9 @@
     &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_LastPlacedQueenInLastPosition_Backtracks&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_LastPlacedQueenCanDiagonallyAttack_IncrementsLastPlacedQueenColumn&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_CalledRepeatedly_SolvesPuzzleWithinALimitedNumberOfMoves&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::EightQueensRobot.Tests.DhTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.FKSolver.DhTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=def0c12d_002D3ab8_002D428e_002Dbde4_002D7f2d74fdce28/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IsValidMove_EmptyString_False" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
