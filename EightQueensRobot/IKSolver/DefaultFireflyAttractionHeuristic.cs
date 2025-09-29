@@ -100,6 +100,6 @@ public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumb
     private float GetNewValue(float value1, float value2, double localBeta, float randomizationValue)
     {
         return (float) (value1 + localBeta * (value2 - value1) +
-                        Alpha + randomizationValue);
+                        Alpha * randomizationValue);
     }
 }
