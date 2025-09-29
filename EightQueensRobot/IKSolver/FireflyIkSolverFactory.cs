@@ -1,0 +1,25 @@
+using EightQueensRobot.RobotModel;
+using EightQueensRobot.Utilities;
+
+namespace EightQueensRobot.IKSolver;
+
+public class FireflyIkSolverFactory : IIkSolverFactory<SixDofJointData>
+{
+    public IIkSolver<SixDofJointData> GetDefaultIkSolver()
+    {
+        const int numberOfIterations = 1000;
+        DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
+        AbbIrb120 robotModel = new();
+        RandomNumberGenerator randomNumberGenerator = new();
+        DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
+
+        return new FireflyIkSolver(
+            exitCriteriaHandler: exitCriteriaHandler,
+            robotModel: robotModel,
+            randomNumberGenerator: randomNumberGenerator,
+            swarmHandler: swarmHandler
+        );
+    }
+    
+}

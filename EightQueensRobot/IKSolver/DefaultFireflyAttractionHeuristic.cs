@@ -56,7 +56,7 @@ public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumb
         Firefly<SixDofJointData, Vector3> brighterNeighbor, double localBeta, float randomizationValue)
     {
         float newJoint1 = GetNewValue(fireflyToMove.Data.Joint1, brighterNeighbor.Data.Joint1, localBeta, randomizationValue);
-        newJoint1 = GetClampedValue(value: newJoint1, min: robotModel.Axis1MinAngle, max: robotModel.Axis1MinAngle);
+        newJoint1 = GetClampedValue(value: newJoint1, min: robotModel.Axis1MinAngle, max: robotModel.Axis1MaxAngle);
         
         float newJoint2 = GetNewValue(fireflyToMove.Data.Joint2, brighterNeighbor.Data.Joint2, localBeta, randomizationValue);
         newJoint2 = GetClampedValue(value: newJoint2, min: robotModel.Axis2MinAngle, max: robotModel.Axis2MaxAngle);

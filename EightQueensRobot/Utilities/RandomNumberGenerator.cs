@@ -1,6 +1,6 @@
 namespace EightQueensRobot.Utilities;
 
-public class RandomNumberGenerator
+public class RandomNumberGenerator : IRandomNumberGenerator
 {
     public RandomNumberGenerator()
     {

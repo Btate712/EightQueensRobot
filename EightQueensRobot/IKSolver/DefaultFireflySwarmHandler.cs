@@ -21,7 +21,7 @@ public class DefaultFireflySwarmHandler(ISixDofRobotModel robotModel, IFireflyAt
         foreach (Firefly<SixDofJointData, Vector3> firefly in _swarm)
         {
             Vector3 position = GetPosition(firefly);
-            float distance = GetDistanceToTarget(position);
+            float distance = GetDistanceSquaredToTarget(position);
             firefly.Output = position;
             firefly.Fitness = distance;
             if (distance < _shortestDistance)
@@ -59,9 +59,9 @@ public class DefaultFireflySwarmHandler(ISixDofRobotModel robotModel, IFireflyAt
         return robotModel.DhChain.GetEndEffectorPosition(firefly.Data.AsArray());
     }
 
-    private float GetDistanceToTarget(Vector3 vector)
+    private float GetDistanceSquaredToTarget(Vector3 vector)
     {
-        return Vector3.Distance(vector, _targetPosition);
+        return Vector3.DistanceSquared(vector, _targetPosition);
     }
 
     public int GetSwarmSize()
