@@ -287,7 +287,8 @@ namespace NQueensSolverTests.FKSolver
             // Ensure these parameters match the same DH convention implemented by DhLink (standard DH).
         
             // Example structure (replace with actual values I find):
-            DhChain chain = AbbIrb120.DhChain;
+            AbbIrb120 robot = new();
+            DhChain chain = robot.DhChain;
         
             // Choose a specific joint configuration in radians.
             double[] q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];

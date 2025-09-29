@@ -4,7 +4,7 @@ namespace NQueensSolverTests.PuzzleSolver;
 
 public class NQueensSolverTests
 {
-    private readonly NQueensSolver _eightQueensSolver = new NQueensSolver(8);
+    private readonly NQueensSolver _eightQueensSolver = new (8);
     
     [Fact]
     public void GetNextMove_InvalidMove_ReturnsInvalidMove()
