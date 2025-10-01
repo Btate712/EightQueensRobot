@@ -6,41 +6,29 @@ namespace NQueensSolverTests.FKSolver
 {
     public sealed class DhTests
     {
-        private const float AlmostEqualPrecision = 1e-5f;
+        private const float EqualityPrecision = 1e-5f;
 
-        static void AssertAlmostEqual(float a, float b, float eps = AlmostEqualPrecision)
+        static void AssertMatrixAlmostEqual(Matrix4x4 a, Matrix4x4 b)
         {
-            Assert.True(MathF.Abs(a - b) <= eps, $"Expected {b}, got {a}");
-        }
+            Assert.Equal(a.M11, b.M11, EqualityPrecision);
+            Assert.Equal(a.M12, b.M12, EqualityPrecision);
+            Assert.Equal(a.M13, b.M13, EqualityPrecision);
+            Assert.Equal(a.M14, b.M14, EqualityPrecision);
 
-        static void AssertVectorAlmostEqual(Vector3 a, Vector3 b, float eps = AlmostEqualPrecision)
-        {
-            AssertAlmostEqual(a.X, b.X, eps);
-            AssertAlmostEqual(a.Y, b.Y, eps);
-            AssertAlmostEqual(a.Z, b.Z, eps);
-        }
+            Assert.Equal(a.M21, b.M21, EqualityPrecision);
+            Assert.Equal(a.M22, b.M22, EqualityPrecision);
+            Assert.Equal(a.M23, b.M23, EqualityPrecision);
+            Assert.Equal(a.M24, b.M24, EqualityPrecision);
 
-        static void AssertMatrixAlmostEqual(Matrix4x4 a, Matrix4x4 b, float eps = AlmostEqualPrecision)
-        {
-            AssertAlmostEqual(a.M11, b.M11, eps);
-            AssertAlmostEqual(a.M12, b.M12, eps);
-            AssertAlmostEqual(a.M13, b.M13, eps);
-            AssertAlmostEqual(a.M14, b.M14, eps);
+            Assert.Equal(a.M31, b.M31, EqualityPrecision);
+            Assert.Equal(a.M32, b.M32, EqualityPrecision);
+            Assert.Equal(a.M33, b.M33, EqualityPrecision);
+            Assert.Equal(a.M34, b.M34, EqualityPrecision);
 
-            AssertAlmostEqual(a.M21, b.M21, eps);
-            AssertAlmostEqual(a.M22, b.M22, eps);
-            AssertAlmostEqual(a.M23, b.M23, eps);
-            AssertAlmostEqual(a.M24, b.M24, eps);
-
-            AssertAlmostEqual(a.M31, b.M31, eps);
-            AssertAlmostEqual(a.M32, b.M32, eps);
-            AssertAlmostEqual(a.M33, b.M33, eps);
-            AssertAlmostEqual(a.M34, b.M34, eps);
-
-            AssertAlmostEqual(a.M41, b.M41, eps);
-            AssertAlmostEqual(a.M42, b.M42, eps);
-            AssertAlmostEqual(a.M43, b.M43, eps);
-            AssertAlmostEqual(a.M44, b.M44, eps);
+            Assert.Equal(a.M41, b.M41, EqualityPrecision);
+            Assert.Equal(a.M42, b.M42, EqualityPrecision);
+            Assert.Equal(a.M43, b.M43, EqualityPrecision);
+            Assert.Equal(a.M44, b.M44, EqualityPrecision);
         }
 
         [Fact]
@@ -159,21 +147,21 @@ namespace NQueensSolverTests.FKSolver
 
             // q = [0, 0] -> position (2,0,0)
             Matrix4x4 t0 = chain.Forward([0.0, 0.0]);
-            AssertAlmostEqual(t0.M41, 2.0f);
-            AssertAlmostEqual(t0.M42, 0.0f);
-            AssertAlmostEqual(t0.M43, 0.0f);
+            Assert.Equal(2.0f, t0.M14,EqualityPrecision);
+            Assert.Equal(0.0f, t0.M24, EqualityPrecision);
+            Assert.Equal(0.0f, t0.M34, EqualityPrecision);
 
             // q = [pi/2, 0] -> first rotates 90deg; both links along +y => (0,2,0)
             Matrix4x4 t1 = chain.Forward([Math.PI / 2.0, 0.0]);
-            AssertAlmostEqual(t1.M41, 0.0f);
-            AssertAlmostEqual(t1.M42, 2.0f);
-            AssertAlmostEqual(t1.M43, 0.0f);
+            Assert.Equal(0.0f, t1.M14, EqualityPrecision);
+            Assert.Equal(2.0f, t1.M24, EqualityPrecision);
+            Assert.Equal(0.0f, t1.M34, EqualityPrecision);
 
             // q = [pi/2, -pi/2] -> first along +y, second rotates -90° relative, thus ends at (1,1,0)
             Matrix4x4 t2 = chain.Forward([Math.PI / 2.0, -Math.PI / 2.0]);
-            AssertAlmostEqual(t2.M41, 1.0f);
-            AssertAlmostEqual(t2.M42, 1.0f);
-            AssertAlmostEqual(t2.M43, 0.0f);
+            Assert.Equal(1.0f, t2.M14, EqualityPrecision);
+            Assert.Equal(1.0f, t2.M24, EqualityPrecision);
+            Assert.Equal(0.0f, t2.M34, EqualityPrecision);
         }
 
         [Fact]
@@ -201,25 +189,25 @@ namespace NQueensSolverTests.FKSolver
             Matrix4x4 T = l.AsMatrix(0.2);
 
             Vector3 p = DhChain.Position(T);
-            AssertAlmostEqual(p.X, T.M41);
-            AssertAlmostEqual(p.Y, T.M42);
-            AssertAlmostEqual(p.Z, T.M43);
+            Assert.Equal(p.X, T.M41);
+            Assert.Equal(p.Y, T.M42);
+            Assert.Equal(p.Z, T.M43);
 
             Quaternion q = DhChain.Orientation(T);
             // Check quaternion is normalized and corresponds to rotation submatrix
-            AssertAlmostEqual(q.Length(), 1.0f, 1e-4f);
+            Assert.Equal(1.0f, q.Length(), EqualityPrecision);
 
             // Rebuild rotation matrix and compare rotation part only
             Matrix4x4 r = Matrix4x4.CreateFromQuaternion(q);
-            AssertAlmostEqual(r.M11, T.M11);
-            AssertAlmostEqual(r.M12, T.M12);
-            AssertAlmostEqual(r.M13, T.M13);
-            AssertAlmostEqual(r.M21, T.M21);
-            AssertAlmostEqual(r.M22, T.M22);
-            AssertAlmostEqual(r.M23, T.M23);
-            AssertAlmostEqual(r.M31, T.M31);
-            AssertAlmostEqual(r.M32, T.M32);
-            AssertAlmostEqual(r.M33, T.M33);
+            Assert.Equal(r.M11, T.M11);
+            Assert.Equal(r.M12, T.M12);
+            Assert.Equal(r.M13, T.M13);
+            Assert.Equal(r.M21, T.M21);
+            Assert.Equal(r.M22, T.M22);
+            Assert.Equal(r.M23, T.M23);
+            Assert.Equal(r.M31, T.M31);
+            Assert.Equal(r.M32, T.M32);
+            Assert.Equal(r.M33, T.M33);
         }
 
         [Fact]
@@ -273,9 +261,9 @@ namespace NQueensSolverTests.FKSolver
             // After l1: rotate 90° about z, translate x by 0.5 -> position (0, 0.5, 0)
             // l2: rotation identity, translate x by 0.4 (but in rotated frame) and z by d2 = 0.3
             // So final position: (0 - because x maps to +y), y = 0.5 + 0.4 = 0.9, z = 0.3
-            AssertAlmostEqual(T.M41, 0.0f);
-            AssertAlmostEqual(T.M42, 0.9f);
-            AssertAlmostEqual(T.M43, 0.3f);
+            Assert.Equal(0.0f, T.M41, EqualityPrecision);
+            Assert.Equal(0.9f, T.M42, EqualityPrecision);
+            Assert.Equal(0.3f, T.M43, EqualityPrecision);
         }
         
         [Fact]
@@ -296,10 +284,12 @@ namespace NQueensSolverTests.FKSolver
             // Set the expected transform for that configuration from a trusted reference/source
             // (e.g., a CAD FK, RobotStudio FK, or paper using the same DH convention).
             // This expected value was selected to match the actual value, so doesn't really test anything.
-            Vector3 expected = new(0.37400f, 0, 0.63000f);
+            Vector3 expected = new(0f, 0f, 0f);
 
             Vector3 actual = chain.GetEndEffectorPosition(q);
-            AssertVectorAlmostEqual(expected, actual);
+            Assert.Equal(expected.X, actual.X, EqualityPrecision);
+            Assert.Equal(expected.Y, actual.Y, EqualityPrecision);
+            Assert.Equal(expected.Z, actual.Z, EqualityPrecision);
         }
     }
 }

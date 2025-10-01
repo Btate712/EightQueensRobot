@@ -40,6 +40,6 @@ public sealed class DhChain
         return Position(T);
     }
     
-    public static Vector3 Position(Matrix4x4 T) => new(T.M41, T.M42, T.M43);
+    public static Vector3 Position(Matrix4x4 T) => new(T.M14, T.M24, T.M34);
     public static Quaternion Orientation(Matrix4x4 T) => Quaternion.CreateFromRotationMatrix(T);
 }
