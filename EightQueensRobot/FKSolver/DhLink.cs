@@ -39,10 +39,10 @@ public sealed class DhLink(
         float df = (float)dEffective;
 
         return new Matrix4x4(
-            ct,         -st,        0f,         af,
-            st*ct,      ct*ca,      -sa,        -df*sa,
-            st*sa,      ct*sa,      ca,         df*ca,
-            0f,         0f,         0f,         1f
+            ct,      -st*ca,        st*sa,          af*ct,
+            st,      ct*ca,         -ct*sa,         af*st,
+            0f,      sa,            ca,             df,
+            0f,      0f,            0f,             1f
         );
     }
 }

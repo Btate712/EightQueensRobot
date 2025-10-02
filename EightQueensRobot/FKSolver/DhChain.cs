@@ -14,7 +14,7 @@ public sealed class DhChain
         if (q.Length != Links.Count) throw new ArgumentException("q length must match link count");
         Matrix4x4 T = Matrix4x4.Identity;
         for (int i = 0; i < Links.Count; i++)
-            T = Matrix4x4.Multiply(Links[i].AsMatrix(q[i]), T);
+            T = Matrix4x4.Multiply(T, Links[i].AsMatrix(q[i]));
         return T;
     }
 
