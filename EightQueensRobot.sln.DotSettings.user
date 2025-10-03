@@ -28,7 +28,5 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f24a7c72_002Deba1_002D45a0_002D81a4_002D76f8a51bc492/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DhTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.FKSolver.DhTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Project Location="/Users/roberttate/Documents/Programming/EightQueensRobot/EightQueensRobotTests" Presentation="&amp;lt;EightQueensRobotTests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

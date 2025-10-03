@@ -37,19 +37,13 @@ public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumb
     private double GetRSquared(Firefly<SixDofJointData, Vector3> fireflyToMove,
         Firefly<SixDofJointData, Vector3> brighterNeighbor)
     {
-        double joint1Distance = fireflyToMove.Data.Joint1 - brighterNeighbor.Data.Joint1;
-        double joint2Distance = fireflyToMove.Data.Joint2 - brighterNeighbor.Data.Joint2;
-        double joint3Distance = fireflyToMove.Data.Joint3 - brighterNeighbor.Data.Joint3;
-        double joint4Distance = fireflyToMove.Data.Joint4 - brighterNeighbor.Data.Joint4;
-        double joint5Distance = fireflyToMove.Data.Joint5 - brighterNeighbor.Data.Joint5;
-        double joint6Distance = fireflyToMove.Data.Joint6 - brighterNeighbor.Data.Joint6;
+        double xDistance = fireflyToMove.Output.X - brighterNeighbor.Output.X;
+        double yDistance = fireflyToMove.Output.Y - brighterNeighbor.Output.Y;
+        double zDistance = fireflyToMove.Output.Z - brighterNeighbor.Output.Z;
 
-        return joint1Distance * joint1Distance +
-            joint2Distance * joint2Distance +
-            joint3Distance * joint3Distance +
-            joint4Distance * joint4Distance +
-            joint5Distance * joint5Distance +
-            joint6Distance * joint6Distance;
+        return xDistance * xDistance +
+               yDistance * yDistance +
+               zDistance * zDistance;
     }
 
     private void MoveToNewPosition(Firefly<SixDofJointData, Vector3> fireflyToMove,
