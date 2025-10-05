@@ -3,22 +3,22 @@ using EightQueensRobot.RobotModel;
 
 namespace EightQueensRobot.IKSolver;
 
-public class DefaultFireflySwarmHandler(ISixDofRobotModel robotModel, IFireflyAttractionHeuristic<SixDofJointData, Vector3> heuristic)
-    : IFireflySwarmHandler<SixDofJointData, Vector3>
+public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttractionHeuristic<JointAngles, Vector3> heuristic)
+    : IFireflySwarmHandler<JointAngles, Vector3>
 {
     private const int DefaultSwarmSize = 30;
     private float _shortestDistance = Single.MaxValue;
-    private Firefly<SixDofJointData, Vector3>? _closestFirefly;
+    private Firefly<JointAngles, Vector3>? _closestFirefly;
     private Vector3 _targetPosition;
-    private Firefly<SixDofJointData, Vector3>[] _swarm = [];
+    private Firefly<JointAngles, Vector3>[] _swarm = [];
 
-    public void ProcessSwarm(Firefly<SixDofJointData, Vector3>[] inputSwarm, Vector3 targetPosition)
+    public void ProcessSwarm(Firefly<JointAngles, Vector3>[] inputSwarm, Vector3 targetPosition)
     {
         _swarm = inputSwarm;
         _targetPosition = targetPosition;
         _shortestDistance = Single.MaxValue;
         _closestFirefly = inputSwarm[0];
-        foreach (Firefly<SixDofJointData, Vector3> firefly in _swarm)
+        foreach (Firefly<JointAngles, Vector3> firefly in _swarm)
         {
             Vector3 position = GetPosition(firefly);
             float distance = GetDistanceSquaredToTarget(position);
@@ -34,10 +34,10 @@ public class DefaultFireflySwarmHandler(ISixDofRobotModel robotModel, IFireflyAt
 
     public void ConcentrateSwarm()
     {
-        Firefly<SixDofJointData, Vector3>[] newSwarm = _swarm.Select(ff => ff.Clone()).ToArray();
-        foreach (Firefly<SixDofJointData, Vector3> firefly in newSwarm)
+        Firefly<JointAngles, Vector3>[] newSwarm = _swarm.Select(ff => ff.Clone()).ToArray();
+        foreach (Firefly<JointAngles, Vector3> firefly in newSwarm)
         {
-            foreach (Firefly<SixDofJointData, Vector3> neighbor in newSwarm)
+            foreach (Firefly<JointAngles, Vector3> neighbor in newSwarm)
             {
                 if (firefly.Fitness > neighbor.Fitness)
                 {
@@ -49,14 +49,14 @@ public class DefaultFireflySwarmHandler(ISixDofRobotModel robotModel, IFireflyAt
         ProcessSwarm(newSwarm, _targetPosition);
     }
 
-    public Firefly<SixDofJointData, Vector3> GetClosestFirefly()
+    public Firefly<JointAngles, Vector3> GetClosestFirefly()
     {
         return _closestFirefly ?? throw new Exception("No closest firefly found");
     }
 
-    private Vector3 GetPosition(Firefly<SixDofJointData, Vector3> firefly)
+    private Vector3 GetPosition(Firefly<JointAngles, Vector3> firefly)
     {
-        return robotModel.DhChain.GetEndEffectorPosition(firefly.Data.AsArray());
+        return robotModel.DhChain.GetEndEffectorPosition(firefly.Data.AsArray);
     }
 
     private float GetDistanceSquaredToTarget(Vector3 vector)

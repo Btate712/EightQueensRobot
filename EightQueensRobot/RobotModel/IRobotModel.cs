@@ -3,7 +3,8 @@ using EightQueensRobot.IKSolver;
 
 namespace EightQueensRobot.RobotModel;
 
-public interface ISixDofRobotModel : IRobotAngleConstraints
+public interface IRobotModel : IRobotAngleConstraints
 {
     DhChain DhChain { get; }
+    float GetRotationalSpeed(int jointNumber);
 }

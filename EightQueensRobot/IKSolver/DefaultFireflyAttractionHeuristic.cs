@@ -4,13 +4,13 @@ using EightQueensRobot.Utilities;
 
 namespace EightQueensRobot.IKSolver;
 
-public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumberGenerator, ISixDofRobotModel robotModel) : IFireflyAttractionHeuristic<SixDofJointData, Vector3>
+public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumberGenerator, IRobotModel robotModel) : IFireflyAttractionHeuristic<JointAngles, Vector3>
 {
     private const float Alpha = 0.3f;
     private const float Beta = 0.9f;
     private const float Gamma = 0.9f;
 
-    public void MoveFirefly(Firefly<SixDofJointData, Vector3> fireflyToMove, Firefly<SixDofJointData, Vector3> brighterNeighbor)
+    public void MoveFirefly(Firefly<JointAngles, Vector3> fireflyToMove, Firefly<JointAngles, Vector3> brighterNeighbor)
     {
         double r2 = GetRSquared(fireflyToMove,  brighterNeighbor);
         double localBeta = GetLocalBeta(r2);
@@ -34,8 +34,8 @@ public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumb
         return randomNumberGenerator.GetRandomNumberBetween(min, max);
     }
     
-    private double GetRSquared(Firefly<SixDofJointData, Vector3> fireflyToMove,
-        Firefly<SixDofJointData, Vector3> brighterNeighbor)
+    private double GetRSquared(Firefly<JointAngles, Vector3> fireflyToMove,
+        Firefly<JointAngles, Vector3> brighterNeighbor)
     {
         double xDistance = fireflyToMove.Output.X - brighterNeighbor.Output.X;
         double yDistance = fireflyToMove.Output.Y - brighterNeighbor.Output.Y;
@@ -46,32 +46,32 @@ public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumb
                zDistance * zDistance;
     }
 
-    private void MoveToNewPosition(Firefly<SixDofJointData, Vector3> fireflyToMove,
-        Firefly<SixDofJointData, Vector3> brighterNeighbor, double localBeta, float randomizationValue)
+    private void MoveToNewPosition(Firefly<JointAngles, Vector3> fireflyToMove,
+        Firefly<JointAngles, Vector3> brighterNeighbor, double localBeta, float randomizationValue)
     {
-        float newJoint1 = GetNewValue(fireflyToMove.Data.Joint1, brighterNeighbor.Data.Joint1, localBeta, randomizationValue);
+        double newJoint1 = GetNewValue(fireflyToMove.Data.GetJoint(1), brighterNeighbor.Data.GetJoint(1), localBeta, randomizationValue);
         newJoint1 = GetClampedValue(value: newJoint1, min: robotModel.Axis1MinAngle, max: robotModel.Axis1MaxAngle);
         
-        float newJoint2 = GetNewValue(fireflyToMove.Data.Joint2, brighterNeighbor.Data.Joint2, localBeta, randomizationValue);
+        double newJoint2 = GetNewValue(fireflyToMove.Data.GetJoint(2), brighterNeighbor.Data.GetJoint(2), localBeta, randomizationValue);
         newJoint2 = GetClampedValue(value: newJoint2, min: robotModel.Axis2MinAngle, max: robotModel.Axis2MaxAngle);
         
-        float newJoint3 = GetNewValue(fireflyToMove.Data.Joint3, brighterNeighbor.Data.Joint3, localBeta, randomizationValue);
+        double newJoint3 = GetNewValue(fireflyToMove.Data.GetJoint(3), brighterNeighbor.Data.GetJoint(3), localBeta, randomizationValue);
         newJoint3 = GetClampedValue(value: newJoint3, min: robotModel.Axis3MinAngle, robotModel.Axis3MaxAngle);
         
-        float newJoint4 = GetNewValue(fireflyToMove.Data.Joint4, brighterNeighbor.Data.Joint4, localBeta, randomizationValue);
+        double newJoint4 = GetNewValue(fireflyToMove.Data.GetJoint(4), brighterNeighbor.Data.GetJoint(4), localBeta, randomizationValue);
         newJoint4 = GetClampedValue(value: newJoint4, min: robotModel.Axis4MinAngle, robotModel.Axis4MaxAngle);
         
-        float newJoint5 = GetNewValue(fireflyToMove.Data.Joint5, brighterNeighbor.Data.Joint5, localBeta, randomizationValue);
+        double newJoint5 = GetNewValue(fireflyToMove.Data.GetJoint(4), brighterNeighbor.Data.GetJoint(4), localBeta, randomizationValue);
         newJoint5 = GetClampedValue(value: newJoint5, min: robotModel.Axis5MinAngle, robotModel.Axis5MaxAngle);
         
-        float newJoint6 = GetNewValue(fireflyToMove.Data.Joint6, brighterNeighbor.Data.Joint6, localBeta, randomizationValue);
+        double newJoint6 = GetNewValue(fireflyToMove.Data.GetJoint(4), brighterNeighbor.Data.GetJoint(4), localBeta, randomizationValue);
         newJoint6 = GetClampedValue(value: newJoint6, min: robotModel.Axis6MinAngle, robotModel.Axis6MaxAngle);
-        
-        SixDofJointData data = new(newJoint1, newJoint2, newJoint3, newJoint4, newJoint5, newJoint6);
+
+        JointAngles data = new([newJoint1, newJoint2, newJoint3, newJoint4, newJoint5, newJoint6]);
         fireflyToMove.Data = data;
     }
 
-    private float GetClampedValue(float value, float min, float max)
+    private double GetClampedValue(double value, float min, float max)
     {
         if (min >= max)
         {
@@ -91,7 +91,7 @@ public class DefaultFireflyAttractionHeuristic(IRandomNumberGenerator randomNumb
         return value;
     }
     
-    private float GetNewValue(float value1, float value2, double localBeta, float randomizationValue)
+    private float GetNewValue(double value1, double value2, double localBeta, float randomizationValue)
     {
         return (float) (value1 + localBeta * (value2 - value1) +
                         Alpha * randomizationValue);

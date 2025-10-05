@@ -2,7 +2,7 @@ using EightQueensRobot.FKSolver;
 
 namespace EightQueensRobot.RobotModel;
 
-public class AbbIrb120 : ISixDofRobotModel
+public class AbbIrb120 : IRobotModel
 {
     private DhChain? _dhChain;
     
@@ -49,6 +49,24 @@ public class AbbIrb120 : ISixDofRobotModel
     public float Axis5MaxAngle => 2.09439f;
     public float Axis6MinAngle => -6.98132f;
     public float Axis6MaxAngle => 6.98132f;
+
+    public float GetRotationalSpeed(int jointNumber)
+    {
+        switch (jointNumber)
+        {
+            case 1:
+            case 2:
+            case 3:
+                return 250f;
+            case 4:
+            case 5:
+                return 320f;
+            case 6:
+                return 420f;
+            default:
+                throw new ArgumentException("Invalid joint number specified");
+        }
+    }
 
     public DhChain DhChain
     {

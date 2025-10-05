@@ -4,6 +4,7 @@ namespace EightQueensRobot.PuzzleSolver;
 
 public class NQueensSolver(int size) : IPuzzleSolver<string>
 {
+    public const string Solved = "Solved";
     private const string EmptyBoardMove = "00000000";
     private readonly NQueensMoveStringValidator _moveValidator = new(size);
     private readonly int[] _lastMoveRows = new int[size];
@@ -13,7 +14,7 @@ public class NQueensSolver(int size) : IPuzzleSolver<string>
     private bool _checked;
     
     public const string InvalidMove = "Invalid move";
-    public const string Solved = "Solved";
+    public string SolvedResponse => "Solved";
     
     public string GetNextMove(string lastMove)
     {
@@ -32,6 +33,8 @@ public class NQueensSolver(int size) : IPuzzleSolver<string>
         
         return FindNextMove();
     }
+
+    public string DefaultStartPosition => EmptyBoardMove;
 
     private void ResetSolverForMove(string lastMove)
     {

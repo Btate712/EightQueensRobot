@@ -3,9 +3,9 @@ using EightQueensRobot.Utilities;
 
 namespace EightQueensRobot.IKSolver;
 
-public class FireflyIkSolverFactory : IIkSolverFactory<SixDofJointData>
+public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
 {
-    public IIkSolver<SixDofJointData> GetDefaultIkSolver()
+    public IIkSolver<JointAngles> GetDefaultIkSolver()
     {
         const int numberOfIterations = 1000;
         DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);

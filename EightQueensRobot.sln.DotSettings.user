@@ -4,29 +4,8 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AEqualityAsserts_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fad8b2779652854276d03ec153d51377686c7193799d1688e119272770d0cf_003FEqualityAsserts_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AStringAsserts_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F74a328368fe41d2091c5466d997e8a9748b142c81d46acca85d62465cdb0c145_003FStringAsserts_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelpers_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd37356fea9ed307068a31dc8ca3e5c5723187a9f164d0d76fc81bbf46f5_003FThrowHelpers_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=59233fe7_002Dfc94_002D4546_002Db0a8_002Db6af16698a78/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IsValidMove_ValidMove_True" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.Utilities.CharacterExtensionsTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_EmptyBoard_ReturnsQueenInTopRightCorner&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_AllQueensSafe_AddsQueenInNextRow&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_AnyQueenCanAttack_IncrementsLastPlacedQueenColumn&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensMoveStringValidatorTests.IsValidMove_HasEmptyRowAboveNonEmptyRow_False&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_MultipleOffendingMoves_RemovesAllButFirstQueenWithOffendingMoves&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_LastPlacedQueenInLastPosition_Backtracks&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_LastPlacedQueenCanDiagonallyAttack_IncrementsLastPlacedQueenColumn&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests.GetNextMove_CalledRepeatedly_SolvesPuzzleWithinALimitedNumberOfMoves&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.PuzzleSolver.NQueensSolverTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::EightQueensRobot.Tests.DhTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.FKSolver.DhTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.IkSolver.DefaultFireflyIterationExitCriteriaHandlerTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.IkSolver.FireflyIkSolverTests.GetJointAnglesForPosition_PositionRequested_JointAnglesObtained&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=def0c12d_002D3ab8_002D428e_002Dbde4_002D7f2d74fdce28/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IsValidMove_EmptyString_False" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::2E552746-BEFA-4247-801B-1819A0DE4CAB::net9.0::NQueensSolverTests.FKSolver.DhTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f24a7c72_002Deba1_002D45a0_002D81a4_002D76f8a51bc492/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DhTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Users/roberttate/Documents/Programming/EightQueensRobot/EightQueensRobotTests" Presentation="&amp;lt;EightQueensRobotTests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

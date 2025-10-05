@@ -21,8 +21,8 @@ public class FireflyIkSolverTests
         AbbIrb120 robotModel = new();
         
         // Act
-        SixDofJointData result = _fireflyIkSolver.GetJointAnglesForPosition(targetPosition);
-        Vector3 resultPosition = robotModel.DhChain.GetEndEffectorPosition([result.Joint1, result.Joint2, result.Joint3, result.Joint4, result.Joint5, result.Joint6]);
+        JointAngles result = _fireflyIkSolver.GetJointAnglesForPosition(targetPosition);
+        Vector3 resultPosition = robotModel.DhChain.GetEndEffectorPosition(result.AsArray);
         
         // Assert
         // ToDo: Debug and figure out why guesses aren't getting better

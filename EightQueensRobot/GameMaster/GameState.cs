@@ -6,5 +6,5 @@ namespace EightQueensRobot.GameMaster;
 
 public class GameState
 {
-    public Firefly<SixDofJointData, Vector3>[] CurrentSwarm { get; set; } = [];
+    public Firefly<JointAngles, Vector3>[] CurrentSwarm { get; set; } = [];
 }
