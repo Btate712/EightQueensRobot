@@ -8,7 +8,7 @@ namespace EightQueensRobot.GameMaster;
 
 public class DefaultMoveController: IMoveController
 {
-    private const float VerticalClearance = 10f;
+    private const float VerticalClearance = 0.10f;
     
     private readonly IMoveTimer _moveTimer;
     private readonly IDataOutput _dataOutput;
