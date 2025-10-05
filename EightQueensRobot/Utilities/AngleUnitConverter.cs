@@ -1,7 +1,7 @@
 namespace EightQueensRobot.Utilities;
 
-public class AngleUnitConverter
+public static class AngleUnitConverter
 {
-    public static double ToRadians(float degrees) => degrees * Math.PI / 180;
-    public static double ToDegrees(float radians) => radians * 180 / Math.PI;
+    public static double ToRadians(this float degrees) => degrees * Math.PI / 180;
+    public static double ToDegrees(this float radians) => radians * 180 / Math.PI;
 }

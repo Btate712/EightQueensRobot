@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace EightQueensRobot.Reporting;
 
 public class TextFileWriter : IDataOutput
@@ -33,8 +35,20 @@ public class TextFileWriter : IDataOutput
             
                 writer.WriteLine($"\tTarget: {datum.TargetPosition}\tActual: {datum.ActualPosition}\tTime: {datum.MoveTime}");
             }
+            
+            string summary = BuildSummary();
+            writer.WriteLine(summary);
         }
     
         Console.WriteLine($"Data written to {fileName}");
+    }
+
+    private string BuildSummary()
+    {
+        int totalFkCalculations = _data.Count * 1000 * 30;
+        float totalMoveTime = _data.Sum(d => d.MoveTime);
+        double errorSquared = _data.Sum(d => Vector3.DistanceSquared(d.TargetPosition, d.ActualPosition));
+        double averagePositionError = Math.Sqrt(errorSquared / _data.Count);
+        return $"Total FK Calculations: {totalFkCalculations:N0}\tTotal Move Time: {totalMoveTime:N}\tAverage Position Error: {averagePositionError:N}";
     }
 }

@@ -1,4 +1,5 @@
 using EightQueensRobot.RobotModel;
+using EightQueensRobot.Utilities;
 
 namespace EightQueensRobot.GameMaster;
 
@@ -10,8 +11,9 @@ public class TrapezoidalMoveTimer(IRobotModel robotModel) : IMoveTimer
     {
         int limitingJoint = GetLongestMovingJoint(initialAngles, finalAngles);
         double degrees = Math.Abs(initialAngles.AsArray[limitingJoint - 1] - finalAngles.AsArray[limitingJoint - 1]);
-        double jointSpeed = robotModel.GetRotationalSpeed(limitingJoint);
-        return CalculateMoveTime((float)degrees, (float)jointSpeed);
+        float jointSpeedDegreesPerSecond = robotModel.GetRotationalSpeed(limitingJoint);
+        double jointSpeedRadiansPerSecond = jointSpeedDegreesPerSecond.ToRadians();
+        return CalculateMoveTime((float)degrees, (float)jointSpeedRadiansPerSecond);
     }
 
     private int GetLongestMovingJoint(JointAngles initialAngles, JointAngles finalAngles)
