@@ -13,9 +13,10 @@ public class FireflyIkSolver(
 {
     public JointAngles GetJointAnglesForPosition(Vector3 position)
     {
+        exitCriteriaHandler.Reset();
         Firefly<JointAngles, Vector3>[] swarm = GenerateInitialSwarm();
         swarmHandler.ProcessSwarm(swarm, position);
-        while (!exitCriteriaHandler.CanStopIterating())
+        while (!exitCriteriaHandler.CanStopIterating(position))
         {
             swarmHandler.ConcentrateSwarm();
         }
@@ -35,17 +36,20 @@ public class FireflyIkSolver(
         return swarm.ToArray();
     }
 
-    private Firefly<JointAngles, Vector3> GenerateFirefly(IRobotAngleConstraints constraints)
+    private Firefly<JointAngles, Vector3> GenerateFirefly(IRobotModel model)
     {
-        float joint1 = randomNumberGenerator.GetRandomNumberBetween(constraints.Axis1MinAngle, constraints.Axis1MaxAngle);
-        float joint2 = randomNumberGenerator.GetRandomNumberBetween(constraints.Axis2MinAngle, constraints.Axis2MaxAngle);
-        float joint3 = randomNumberGenerator.GetRandomNumberBetween(constraints.Axis3MinAngle, constraints.Axis3MaxAngle);
-        float joint4 = randomNumberGenerator.GetRandomNumberBetween(constraints.Axis4MinAngle, constraints.Axis4MaxAngle);
-        float joint5 = randomNumberGenerator.GetRandomNumberBetween(constraints.Axis5MinAngle, constraints.Axis5MaxAngle);
-        float joint6 = randomNumberGenerator.GetRandomNumberBetween(constraints.Axis6MinAngle, constraints.Axis6MaxAngle);
+        List<double> angles = [];
         
-        JointAngles jointData = new([joint1, joint2, joint3, joint4, joint5, joint6]);
+        for (int joint = 1; joint <= model.GetDoF(); joint++)
+        {
+            float min = model.GetMinAngle(joint);
+            float max = model.GetMaxAngle(joint);
+            float randomJointAngle = randomNumberGenerator.GetRandomNumberBetween(min, max);
+            angles.Add(randomJointAngle);
+        }
         
-        return new Firefly<JointAngles, Vector3>(jointData);
+        JointAngles jointAngles = new(angles.ToArray());
+        
+        return new Firefly<JointAngles, Vector3>(jointAngles);
     }
 }

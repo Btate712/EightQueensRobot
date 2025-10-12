@@ -20,15 +20,7 @@ public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttracti
         _closestFirefly = inputSwarm[0];
         foreach (Firefly<JointAngles, Vector3> firefly in _swarm)
         {
-            Vector3 position = GetPosition(firefly);
-            float distance = GetDistanceSquaredToTarget(position);
-            firefly.Output = position;
-            firefly.Fitness = distance;
-            if (distance < _shortestDistance)
-            {
-                _shortestDistance = distance;
-                _closestFirefly = firefly;
-            }
+            ProcessFirefly(firefly);
         }
     }
 
@@ -42,6 +34,7 @@ public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttracti
                 if (firefly.Fitness > neighbor.Fitness)
                 {
                     heuristic.MoveFirefly(firefly, neighbor);
+                    ProcessFirefly(firefly);
                 }
             }
         }
@@ -49,6 +42,19 @@ public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttracti
         ProcessSwarm(newSwarm, _targetPosition);
     }
 
+    private void ProcessFirefly(Firefly<JointAngles, Vector3> firefly)
+    {
+        Vector3 position = GetPosition(firefly);
+        float distance = GetDistanceSquaredToTarget(position);
+        firefly.Output = position;
+        firefly.Fitness = distance;
+        if (distance < _shortestDistance)
+        {
+            _shortestDistance = distance;
+            _closestFirefly = firefly;
+        }
+    }
+    
     public Firefly<JointAngles, Vector3> GetClosestFirefly()
     {
         return _closestFirefly ?? throw new Exception("No closest firefly found");

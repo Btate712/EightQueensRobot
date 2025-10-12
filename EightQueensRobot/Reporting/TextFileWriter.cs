@@ -49,6 +49,6 @@ public class TextFileWriter : IDataOutput
         float totalMoveTime = _data.Sum(d => d.MoveTime);
         double errorSquared = _data.Sum(d => Vector3.DistanceSquared(d.TargetPosition, d.ActualPosition));
         double averagePositionError = Math.Sqrt(errorSquared / _data.Count);
-        return $"Total FK Calculations: {totalFkCalculations:N0}\tTotal Move Time: {totalMoveTime:N}\tAverage Position Error: {averagePositionError:N}";
+        return $"Total Moves: {_data.Count}\nTotal FK Calculations: {totalFkCalculations:N0}\nTotal Move Time: {totalMoveTime:N}\nAverage Position Error: {averagePositionError:N}";
     }
 }

@@ -6,6 +6,11 @@ public record JointAngles(double[] AsArray)
 
     public double GetJoint(int angleNumber)
     {
-        return AsArray[angleNumber];
+        if (angleNumber < 0 || angleNumber > DegreesOfFreedom)
+        {
+            throw new IndexOutOfRangeException("The angle number is one-based.");
+        }
+        
+        return AsArray[angleNumber - 1];
     }
 }

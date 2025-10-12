@@ -1,3 +1,4 @@
+using System.Numerics;
 using EightQueensRobot.IKSolver;
 
 namespace NQueensSolverTests.IkSolver;
@@ -14,7 +15,7 @@ public class DefaultFireflyIterationExitCriteriaHandlerTests
         int counter = 0;
         
         // Act
-        while (!iterationHandler.CanStopIterating() && counter < infiniteLoopPreventionLimit)
+        while (!iterationHandler.CanStopIterating(new Vector3()) && counter < infiniteLoopPreventionLimit)
         {
             counter++;
         }

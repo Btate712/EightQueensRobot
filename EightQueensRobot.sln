@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EightQueensRobot", "EightQu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EightQueensRobotTests", "EightQueensRobotTests\EightQueensRobotTests.csproj", "{2E552746-BEFA-4247-801B-1819A0DE4CAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarker", "Benchmarker\Benchmarker.csproj", "{4DCFFF04-7DEF-4AD5-9E39-24E9B1F2EAB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{2E552746-BEFA-4247-801B-1819A0DE4CAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E552746-BEFA-4247-801B-1819A0DE4CAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E552746-BEFA-4247-801B-1819A0DE4CAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DCFFF04-7DEF-4AD5-9E39-24E9B1F2EAB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCFFF04-7DEF-4AD5-9E39-24E9B1F2EAB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCFFF04-7DEF-4AD5-9E39-24E9B1F2EAB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCFFF04-7DEF-4AD5-9E39-24E9B1F2EAB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

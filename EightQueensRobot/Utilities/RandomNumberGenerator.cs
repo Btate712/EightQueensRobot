@@ -2,12 +2,7 @@ namespace EightQueensRobot.Utilities;
 
 public class RandomNumberGenerator : IRandomNumberGenerator
 {
-    public RandomNumberGenerator()
-    {
-        _random = new Random();
-    }
-    
-    private readonly Random _random;
+    private readonly Random _random = new();
     
     public float GetRandomNumberBetween(float min, float max)
     {

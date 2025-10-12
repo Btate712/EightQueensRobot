@@ -5,67 +5,93 @@ namespace EightQueensRobot.RobotModel;
 public class AbbIrb120 : IRobotModel
 {
     private DhChain? _dhChain;
+
+    private static readonly JointParameters Joint1 = new(
+        JointType: JointType.Revolute,
+        D: 0.291f,
+        A: -1.57079f,
+        Alpha: -1.57079f,
+        AxisOffset: 0.0f,
+        MinAngle: -2.87979f,
+        MaxAngle: 2.87979f,
+        RotationalSpeed: 250f);
+
+    private static readonly JointParameters Joint2 = new(
+        JointType: JointType.Revolute,
+        D: 0.0f,
+        A: 0.270f,
+        Alpha: 0.0f,
+        AxisOffset: -1.57079f,
+        MinAngle: -1.91986f,
+        MaxAngle: 1.91986f,
+        RotationalSpeed: 250f);
+
+    private static readonly JointParameters Joint3 = new(
+        JointType: JointType.Revolute,
+        D: 0.0f,
+        A: 0.070f,
+        Alpha: -1.57079f,
+        AxisOffset: 0.0f,
+        MinAngle: -1.91986f,
+        MaxAngle: 1.22173f,
+        RotationalSpeed: 250f);
+
+    private static readonly JointParameters Joint4 = new(
+        JointType: JointType.Revolute,
+        D: 0.302f,
+        A: 0.0f,
+        Alpha: 1.57079f,
+        AxisOffset: 0.0f,
+        MinAngle: -2.79253f,
+        MaxAngle: 2.79253f,
+        RotationalSpeed: 320f);
+
+    private static readonly JointParameters Joint5 = new(
+        JointType: JointType.Revolute,
+        D: 0.0f,
+        A: 0.0f,
+        Alpha: -1.57079f,
+        AxisOffset: 0.0f,
+        MinAngle: -2.09439f,
+        MaxAngle: 2.09439f,
+        RotationalSpeed: 320f);
     
-    // Standard DH Parameters
-    // length values in meters
-    private const float D1 = 0.290f;
-    private const float D2 = 0.0f;
-    private const float D3 = 0.0f;
-    private const float D4 = 0.302f;
-    private const float D5 = 0.0f;
-    private const float D6 = 0.072f;
+    private static readonly JointParameters Joint6 = new(
+        JointType: JointType.Revolute,
+        D: 0.072f,
+        A: 0.0f,
+        Alpha: 0.0f,
+        AxisOffset: 3.14159f,
+        MinAngle: -6.98132f,
+        MaxAngle: 6.98132f,
+        RotationalSpeed: 420f);
 
-    private const float A1 = 0.0f;
-    private const float A2 = 0.270f;
-    private const float A3 = 0.070f;
-    private const float A4 = 0.0f;
-    private const float A5 = 0.0f;
-    private const float A6 = 0.0f;
+    private static readonly JointParameters[] Joints =
+    [
+        Joint1, Joint2, Joint3, Joint4, Joint5, Joint6
+    ];
 
-    // angle values in radians
-    private const float Alpha1 = -1.57079f;
-    private const float Alpha2 = 0.0f;
-    private const float Alpha3 = -1.57079f;
-    private const float Alpha4 = 1.57079f;
-    private const float Alpha5 = -1.57079f;
-    private const float Alpha6 = 0.0f;
-    
-    private const float Axis1Offset = 0.0f;
-    private const float Axis2Offset = -1.57079f;
-    private const float Axis3Offset = 0.0f; 
-    private const float Axis4Offset = 0.0f; 
-    private const float Axis5Offset = 0.0f; 
-    private const float Axis6Offset = 3.14159f; 
+    public int GetDoF()
+    {
+        return Joints.Length;
+    }
 
-    public float Axis1MinAngle => -2.87979f;
-    public float Axis1MaxAngle => 2.87979f;
-    public float Axis2MinAngle => -1.91986f;
-    public float Axis2MaxAngle  => 1.91986f;
-    public float Axis3MinAngle => -1.91986f;
-    public float Axis3MaxAngle => 1.22173f;
-    public float Axis4MinAngle => -2.79253f;
-    public float Axis4MaxAngle => 2.79253f;
-    public float Axis5MinAngle  => -2.09439f;
-    public float Axis5MaxAngle => 2.09439f;
-    public float Axis6MinAngle => -6.98132f;
-    public float Axis6MaxAngle => 6.98132f;
+    public float GetMinAngle(int jointNumber)
+    {
+        int jointIndex = GetJointIndex(jointNumber);
+        return Joints[jointIndex].MinAngle;
+    }
+
+    public float GetMaxAngle(int jointNumber)
+    {
+        int jointIndex = GetJointIndex(jointNumber);
+        return Joints[jointIndex].MaxAngle;
+    }
 
     public float GetRotationalSpeed(int jointNumber)
     {
-        switch (jointNumber)
-        {
-            case 1:
-            case 2:
-            case 3:
-                return 250f;
-            case 4:
-            case 5:
-                return 320f;
-            case 6:
-                return 420f;
-            default:
-                throw new ArgumentException("Invalid joint number specified");
-        }
+        int jointIndex = GetJointIndex(jointNumber);
+        return Joints[jointIndex].RotationalSpeed;
     }
 
     public DhChain DhChain
@@ -78,65 +104,39 @@ public class AbbIrb120 : IRobotModel
         }
     }
 
+    public float RSquaredNormalizationValue
+    {
+        get
+        {
+            return Joints
+                .Select(joint => joint.MaxAngle - joint.MinAngle)
+                .Select(jointRange => jointRange * jointRange)
+                .Sum();
+        }
+    }
+    
+    private int GetJointIndex(int jointNumber)
+    {
+        if (jointNumber > Joints.Length || jointNumber < 1)
+        {
+            throw new IndexOutOfRangeException();
+        }
+
+        return jointNumber - 1;
+    }
+    
     private DhChain BuildDhChain()
     {
-        return new DhChain(
-            [
-                new DhLink(
-                    jointType: JointType.Revolute,
-                    a: A1,
-                    alpha: Alpha1,
-                    d: D1,
-                    theta: 0,
-                    offset: Axis1Offset,
-                    min: Axis1MinAngle,
-                    max: Axis1MaxAngle),
-                new DhLink(
-                    jointType: JointType.Revolute,
-                    a: A2,
-                    alpha: Alpha2,
-                    d: D2,
-                    theta: 0,
-                    offset: Axis2Offset,
-                    min: Axis2MinAngle,
-                    max: Axis2MaxAngle),
-                new DhLink(
-                    jointType: JointType.Revolute,
-                    a: A3,
-                    alpha: Alpha3,
-                    d: D3,
-                    theta: 0,
-                    offset: Axis3Offset,
-                    min: Axis3MinAngle,
-                    max: Axis3MaxAngle),
-                new DhLink(
-                    jointType: JointType.Revolute,
-                    a: A4,
-                    alpha: Alpha4,
-                    d: D4,
-                    theta: 0,
-                    offset: Axis4Offset,
-                    min: Axis4MinAngle,
-                    max: Axis4MaxAngle),
-                new DhLink(
-                    jointType: JointType.Revolute,
-                    a: A5,
-                    alpha: Alpha5,
-                    d: D5,
-                    theta: 0,
-                    offset: Axis5Offset,
-                    min: Axis5MinAngle,
-                    max: Axis5MaxAngle),
-                new DhLink(
-                    jointType: JointType.Revolute,
-                    a: A6,
-                    alpha: Alpha6,
-                    d: D6,
-                    theta: 0,
-                    offset: Axis6Offset,
-                    min: Axis6MinAngle,
-                    max: Axis6MaxAngle)
-            ]
-        );
+        DhLink[] links = Joints.Select(j => new DhLink(
+            jointType: j.JointType,
+            a: j.A,
+            alpha: j.Alpha,
+            d: j.D,
+            theta: 0,
+            offset: j.AxisOffset,
+            min: j.MinAngle,
+            max: j.MaxAngle)).ToArray();
+        
+        return new DhChain(links);
     }
 }

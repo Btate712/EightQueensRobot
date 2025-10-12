@@ -7,4 +7,6 @@ public interface IRobotModel : IRobotAngleConstraints
 {
     DhChain DhChain { get; }
     float GetRotationalSpeed(int jointNumber);
+    int GetDoF();
+    float RSquaredNormalizationValue { get; }
 }

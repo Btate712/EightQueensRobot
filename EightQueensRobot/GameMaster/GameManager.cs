@@ -11,13 +11,13 @@ public class GameManager(
     QueenPositionManager queenPositionManager,
     IDataOutput dataOutput)
 {
-    private readonly Vector3 _hopperPosition = new Vector3(-10, -10, 0);
+    private readonly Vector3 _hopperPosition = new(-0.010f, -0.010f, 0);
     
     public void Run()
     {
         bool solved = false;
         string lastMove = puzzleSolver.DefaultStartPosition;
-
+        
         while (!solved)
         {
             string nextMove = puzzleSolver.GetNextMove(lastMove);
@@ -31,6 +31,7 @@ public class GameManager(
                 QueenMove[] moves = queenPositionManager.GetMovesToAchieve(nextMove);
                 foreach (QueenMove move in moves)
                 {
+                    Console.WriteLine("Moving...");
                     Vector3 startPosition = move.Source == QueenPosition.Hopper 
                         ? _hopperPosition 
                         : boardManager.GetSquareCenter(move.Source.X, move.Source.Y);
@@ -39,7 +40,6 @@ public class GameManager(
                     moveController.Move(moveData);
                     moveController.Grab();
 
-                    
                     Vector3 endPosition = move.Destination == QueenPosition.Hopper
                         ? _hopperPosition 
                         : boardManager.GetSquareCenter(move.Destination.X, move.Destination.Y);

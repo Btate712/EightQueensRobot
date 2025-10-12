@@ -67,9 +67,9 @@ public class DefaultMoveController: IMoveController
     private void MovePartial(Vector3 targetPosition, MoveData overallMoveData)
     {
         JointAngles targetJointAngles = _ikSolver.GetJointAnglesForPosition(targetPosition);
+        Vector3 actualPositionForJointAngles = _fkSolver.GetEndEffectorPosition(targetJointAngles.AsArray);
         
         float moveTime = _moveTimer.CalculateMoveTime(_currentJointPositions, targetJointAngles);
-        Vector3 actualPositionForJointAngles = _fkSolver.GetEndEffectorPosition(targetJointAngles.AsArray);
         
         MoveReportingData moveReportingData = new(overallMoveData.QueenMove, targetPosition, actualPositionForJointAngles, moveTime);
         

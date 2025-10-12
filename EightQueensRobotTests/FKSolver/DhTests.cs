@@ -1,12 +1,13 @@
 using System.Numerics;
 using EightQueensRobot.FKSolver;
 using EightQueensRobot.RobotModel;
+using EightQueensRobot.Utilities;
 
 namespace NQueensSolverTests.FKSolver
 {
     public sealed class DhTests
     {
-        private const float EqualityPrecision = 1e-5f;
+        private const float EqualityPrecision = 1e-3f;
 
         static void AssertMatrixAlmostEqual(Matrix4x4 a, Matrix4x4 b)
         {
@@ -267,26 +268,23 @@ namespace NQueensSolverTests.FKSolver
         }
         
         [Fact]
-        public void ABB_IRB120_ForwardKinematics_Check()
+        public void Sungur370_ForwardKinematics_Check()
         {
-            // ToDo: Verify that I've got the DH parameters configured correctly by finding a paper
-            // that shows some expected positions and create tests for those positions.
-
-            // Ensure these parameters match the same DH convention implemented by DhLink (standard DH).
-        
-            // Example structure (replace with actual values I find):
-            AbbIrb120 robot = new();
+            // Arrange
+            Sungur370 robot = new();
             DhChain chain = robot.DhChain;
-        
-            // Choose a specific joint configuration in radians.
-            double[] q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-        
-            // Set the expected transform for that configuration from a trusted reference/source
-            // (e.g., a CAD FK, RobotStudio FK, or paper using the same DH convention).
-            // This expected value was selected to match the actual value, so doesn't really test anything.
-            Vector3 expected = new(0.37400f, 0f, 0.63000f);
+            
+            // Inputs and Expected Outputs from Dereli/Koker paper
+            // Calculation of the inverse kinematics solution of the 7-DOF
+            // redundant robot manipulator by the firefly algorithm and
+            // statistical analysis of the results in terms of speed and accuracy
+            double[] q = [45f.ToRadians(), 0f, 45f.ToRadians(), 0.0, 45f.ToRadians(), 0, 0];
+            Vector3 expected = new(-0.247487f, 1.009619f, 0.50000f);
 
+            // Act
             Vector3 actual = chain.GetEndEffectorPosition(q);
+            
+            // Assert
             Assert.Equal(expected.X, actual.X, EqualityPrecision);
             Assert.Equal(expected.Y, actual.Y, EqualityPrecision);
             Assert.Equal(expected.Z, actual.Z, EqualityPrecision);

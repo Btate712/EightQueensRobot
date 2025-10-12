@@ -6,26 +6,55 @@ namespace NQueensSolverTests.IkSolver;
 
 public class FireflyIkSolverTests
 {
-    private readonly FireflyIkSolver _fireflyIkSolver;
+    private readonly FireflyIkSolver _defaultIkSolver;
+    private readonly FireflyIkSolver _withinToleranceIkSolver;
     
     public FireflyIkSolverTests()
     {
         FireflyIkSolverFactory factory = new();
-        _fireflyIkSolver = (FireflyIkSolver) factory.GetDefaultIkSolver();
+        _defaultIkSolver = (FireflyIkSolver) factory.GetDefaultIkSolver();
+        _withinToleranceIkSolver = (FireflyIkSolver)factory.GetWithinToleranceSolver();
     }
-    [Fact]
-    public void GetJointAnglesForPosition_PositionRequested_JointAnglesObtained()
+    
+    [Theory]
+    [InlineData(-0.247487f, 1.009619f, 0.50f)]
+    [InlineData(0.07861869, -0.14541759, 0.050121572)]
+    [InlineData(-0.25, -0.25, -0.15)]
+    public void GetJointAnglesForPosition_DefaultSolver_JointAnglesObtained(float positionX, float positionY, float positionZ)
     {
         // Arrange
-        Vector3 targetPosition = new(0.25f, 0.00f, 0.25f);
-        AbbIrb120 robotModel = new();
+        Vector3 targetPosition = new(positionX, positionY, positionZ);
+        Sungur370 robotModel = new();
+        const float tolerance = 0.00005f;
         
         // Act
-        JointAngles result = _fireflyIkSolver.GetJointAnglesForPosition(targetPosition);
+        JointAngles result = _defaultIkSolver.GetJointAnglesForPosition(targetPosition);
         Vector3 resultPosition = robotModel.DhChain.GetEndEffectorPosition(result.AsArray);
         
         // Assert
-        // ToDo: Debug and figure out why guesses aren't getting better
-        Assert.True(true);
-    }
+        Assert.Equal(targetPosition.X, resultPosition.X, tolerance);
+        Assert.Equal(targetPosition.Y, resultPosition.Y, tolerance);
+        Assert.Equal(targetPosition.Z, resultPosition.Z, tolerance);
+    }   
+    
+    [Theory]
+    [InlineData(-0.247487f, 1.009619f, 0.50f)]
+    [InlineData(0.07861869, -0.14541759, 0.050121572)]
+    [InlineData(-0.25, -0.25, -0.15)]
+    public void GetJointAnglesForPosition_WithinToleranceSolver_JointAnglesObtained(float positionX, float positionY, float positionZ)
+    {
+        // Arrange
+        Vector3 targetPosition = new(positionX, positionY, positionZ);
+        Sungur370 robotModel = new();
+        const float tolerance = 0.001f;
+        
+        // Act
+        JointAngles result = _withinToleranceIkSolver.GetJointAnglesForPosition(targetPosition);
+        Vector3 resultPosition = robotModel.DhChain.GetEndEffectorPosition(result.AsArray);
+        
+        // Assert
+        Assert.Equal(targetPosition.X, resultPosition.X, tolerance);
+        Assert.Equal(targetPosition.Y, resultPosition.Y, tolerance);
+        Assert.Equal(targetPosition.Z, resultPosition.Z, tolerance);
+    }  
 }

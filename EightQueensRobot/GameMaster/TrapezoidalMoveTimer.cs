@@ -11,8 +11,7 @@ public class TrapezoidalMoveTimer(IRobotModel robotModel) : IMoveTimer
     {
         int limitingJoint = GetLongestMovingJoint(initialAngles, finalAngles);
         double degrees = Math.Abs(initialAngles.AsArray[limitingJoint - 1] - finalAngles.AsArray[limitingJoint - 1]);
-        float jointSpeedDegreesPerSecond = robotModel.GetRotationalSpeed(limitingJoint);
-        double jointSpeedRadiansPerSecond = jointSpeedDegreesPerSecond.ToRadians();
+        float jointSpeedRadiansPerSecond = robotModel.GetRotationalSpeed(limitingJoint);
         return CalculateMoveTime((float)degrees, (float)jointSpeedRadiansPerSecond);
     }
 

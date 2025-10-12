@@ -9,7 +9,7 @@ public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
     {
         const int numberOfIterations = 1000;
         DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
-        AbbIrb120 robotModel = new();
+        Sungur370 robotModel = new();
         RandomNumberGenerator randomNumberGenerator = new();
         DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
         DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
@@ -19,7 +19,23 @@ public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
             robotModel: robotModel,
             randomNumberGenerator: randomNumberGenerator,
             swarmHandler: swarmHandler
-        );
+            );
     }
-    
+
+    public IIkSolver<JointAngles> GetWithinToleranceSolver()
+    {
+        const float tolerance = 0.001f;
+        Sungur370 robotModel = new();
+        RandomNumberGenerator randomNumberGenerator = new();
+        DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
+        WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance);
+
+        return new FireflyIkSolver(
+            exitCriteriaHandler: exitCriteriaHandler,
+            robotModel: robotModel,
+            randomNumberGenerator: randomNumberGenerator,
+            swarmHandler: swarmHandler
+            );
+    }
 }
