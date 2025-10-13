@@ -1,9 +1,14 @@
 using System.Numerics;
 using EightQueensRobot.RobotModel;
+using EightQueensRobot.Utilities;
 
 namespace EightQueensRobot.IKSolver;
 
-public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttractionHeuristic<JointAngles, Vector3> heuristic)
+public class DefaultFireflySwarmHandler(
+    IRobotModel robotModel, 
+    IFireflyAttractionHeuristic<JointAngles, Vector3> heuristic, 
+    RandomNumberGenerator randomNumberGenerator,
+    IFireflyCache<JointAngles, Vector3> fireflyCache)
     : IFireflySwarmHandler<JointAngles, Vector3>
 {
     private const int DefaultSwarmSize = 30;
@@ -11,6 +16,18 @@ public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttracti
     private Firefly<JointAngles, Vector3>? _closestFirefly;
     private Vector3 _targetPosition;
     private Firefly<JointAngles, Vector3>[] _swarm = [];
+
+    public Firefly<JointAngles, Vector3>[] GenerateFireflySwarm()
+    {
+        List<Firefly<JointAngles, Vector3>> swarm = [];
+        
+        for (int i = 0; i < GetSwarmSize(); i++)
+        {
+            swarm.Add(GenerateFirefly(robotModel));    
+        }
+        
+        return swarm.ToArray();
+    }
 
     public void ProcessSwarm(Firefly<JointAngles, Vector3>[] inputSwarm, Vector3 targetPosition)
     {
@@ -73,5 +90,22 @@ public class DefaultFireflySwarmHandler(IRobotModel robotModel, IFireflyAttracti
     public int GetSwarmSize()
     {
         return DefaultSwarmSize;
+    }
+    
+    private Firefly<JointAngles, Vector3> GenerateFirefly(IRobotModel model)
+    {
+        List<double> angles = [];
+        
+        for (int joint = 1; joint <= model.GetDoF(); joint++)
+        {
+            float min = model.GetMinAngle(joint);
+            float max = model.GetMaxAngle(joint);
+            float randomJointAngle = randomNumberGenerator.GetRandomNumberBetween(min, max);
+            angles.Add(randomJointAngle);
+        }
+        
+        JointAngles jointAngles = new(angles.ToArray());
+        
+        return new Firefly<JointAngles, Vector3>(jointAngles);
     }
 }

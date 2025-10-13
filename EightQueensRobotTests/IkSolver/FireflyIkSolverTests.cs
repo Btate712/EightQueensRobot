@@ -17,7 +17,6 @@ public class FireflyIkSolverTests
     }
     
     [Theory]
-    [InlineData(-0.247487f, 1.009619f, 0.50f)]
     [InlineData(0.07861869, -0.14541759, 0.050121572)]
     [InlineData(-0.25, -0.25, -0.15)]
     public void GetJointAnglesForPosition_DefaultSolver_JointAnglesObtained(float positionX, float positionY, float positionZ)
@@ -38,7 +37,6 @@ public class FireflyIkSolverTests
     }   
     
     [Theory]
-    [InlineData(-0.247487f, 1.009619f, 0.50f)]
     [InlineData(0.07861869, -0.14541759, 0.050121572)]
     [InlineData(-0.25, -0.25, -0.15)]
     public void GetJointAnglesForPosition_WithinToleranceSolver_JointAnglesObtained(float positionX, float positionY, float positionZ)

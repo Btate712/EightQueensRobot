@@ -26,9 +26,10 @@ public class GameFactory
         TextFileWriter writer = new();
         RandomNumberGenerator randomNumberGenerator = new();
         DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
-        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
+        NullFireflyCache<JointAngles, Vector3> nullFireflyCache = new();
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, nullFireflyCache);
         DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
-        FireflyIkSolver ikSolver = new(exitCriteriaHandler, robotModel, randomNumberGenerator, swarmHandler);
+        FireflyIkSolver ikSolver = new(exitCriteriaHandler, robotModel, swarmHandler);
         DefaultMoveController moveController = new(moveTimer, writer, ikSolver, robotModel, hopperPosition);
         QueenPositionManager queenPositionManager = new(NumberOfQueens);
         GameManager gameManager = new(eightQueensSolver, boardManager, moveController, queenPositionManager, writer);

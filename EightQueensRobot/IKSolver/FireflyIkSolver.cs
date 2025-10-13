@@ -7,7 +7,6 @@ namespace EightQueensRobot.IKSolver;
 public class FireflyIkSolver(
     IFireflyIterationExitCriteriaHandler exitCriteriaHandler,
     IRobotModel robotModel,
-    IRandomNumberGenerator randomNumberGenerator,
     IFireflySwarmHandler<JointAngles, Vector3> swarmHandler)
     : IIkSolver<JointAngles>
 {
@@ -19,7 +18,7 @@ public class FireflyIkSolver(
         }
         
         exitCriteriaHandler.Reset();
-        Firefly<JointAngles, Vector3>[] swarm = GenerateInitialSwarm();
+        Firefly<JointAngles, Vector3>[] swarm = swarmHandler.GenerateFireflySwarm();
         swarmHandler.ProcessSwarm(swarm, position);
         while (!exitCriteriaHandler.CanStopIterating(position))
         {
@@ -27,34 +26,5 @@ public class FireflyIkSolver(
         }
         Firefly<JointAngles, Vector3> bestChoice = swarmHandler.GetClosestFirefly();
         return bestChoice.Data;
-    }
-
-    private Firefly<JointAngles, Vector3>[] GenerateInitialSwarm()
-    {
-        List<Firefly<JointAngles, Vector3>> swarm = [];
-        
-        for (int i = 0; i < swarmHandler.GetSwarmSize(); i++)
-        {
-            swarm.Add(GenerateFirefly(robotModel));    
-        }
-        
-        return swarm.ToArray();
-    }
-
-    private Firefly<JointAngles, Vector3> GenerateFirefly(IRobotModel model)
-    {
-        List<double> angles = [];
-        
-        for (int joint = 1; joint <= model.GetDoF(); joint++)
-        {
-            float min = model.GetMinAngle(joint);
-            float max = model.GetMaxAngle(joint);
-            float randomJointAngle = randomNumberGenerator.GetRandomNumberBetween(min, max);
-            angles.Add(randomJointAngle);
-        }
-        
-        JointAngles jointAngles = new(angles.ToArray());
-        
-        return new Firefly<JointAngles, Vector3>(jointAngles);
     }
 }

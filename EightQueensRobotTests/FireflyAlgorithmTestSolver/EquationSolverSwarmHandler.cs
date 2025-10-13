@@ -1,10 +1,11 @@
 using System.Numerics;
 using EightQueensRobot.FKSolver;
 using EightQueensRobot.IKSolver;
+using EightQueensRobot.Utilities;
 
 namespace NQueensSolverTests.FireflyAlgorithmTestSolver;
 
-public class EquationSolverSwarmHandler(IFireflyAttractionHeuristic<float[], Vector3> heuristic)
+public class EquationSolverSwarmHandler(IFireflyAttractionHeuristic<float[], Vector3> heuristic, RandomNumberGenerator randomNumberGenerator)
     : IFireflySwarmHandler<float[], Vector3>
 {
     private const int DefaultSwarmSize = 30;
@@ -12,6 +13,17 @@ public class EquationSolverSwarmHandler(IFireflyAttractionHeuristic<float[], Vec
     private Firefly<float[], Vector3>? _closestFirefly;
     private Vector3 _targetPosition;
     private Firefly<float[], Vector3>[] _swarm = [];
+
+    public Firefly<float[], Vector3>[] GenerateFireflySwarm()
+    {
+        List<Firefly<float[], Vector3>> swarm = [];
+        
+        for (int i = 0; i < GetSwarmSize(); i++)
+        {
+            swarm.Add(GenerateFirefly());    
+        }
+        
+        return swarm.ToArray();    }
 
     public void ProcessSwarm(Firefly<float[], Vector3>[] inputSwarm, Vector3 targetPosition)
     {
@@ -54,9 +66,6 @@ public class EquationSolverSwarmHandler(IFireflyAttractionHeuristic<float[], Vec
         Console.WriteLine($"Shortest distance: {_shortestDistance}");
     }
 
-    
-    
-
     public Firefly<float[], Vector3> GetClosestFirefly()
     {
         return _closestFirefly ?? throw new Exception("No closest firefly found");
@@ -75,5 +84,20 @@ public class EquationSolverSwarmHandler(IFireflyAttractionHeuristic<float[], Vec
     public int GetSwarmSize()
     {
         return DefaultSwarmSize;
+    }
+    
+    private Firefly<float[], Vector3> GenerateFirefly()
+    {
+        List<float> angles = [];
+        
+        for (int variable = 1; variable <= 6; variable++)
+        {
+            float min = -100;
+            float max = 100;
+            float randomJointAngle = randomNumberGenerator.GetRandomNumberBetween(min, max);
+            angles.Add(randomJointAngle);
+        }
+        
+        return new Firefly<float[], Vector3>(angles.ToArray());
     }
 }

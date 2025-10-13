@@ -11,7 +11,7 @@ public class EquationSolverFactory
         DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
         RandomNumberGenerator randomNumberGenerator = new();
         EquationSolverFireflyAttractionHeuristic heuristic = new(randomNumberGenerator);
-        EquationSolverSwarmHandler swarmHandler = new(heuristic);
-        return new FireflyGenericSolver(exitCriteriaHandler, randomNumberGenerator, swarmHandler);
+        EquationSolverSwarmHandler swarmHandler = new(heuristic, randomNumberGenerator);
+        return new FireflyGenericSolver(exitCriteriaHandler, swarmHandler);
     }
 }

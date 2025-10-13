@@ -1,3 +1,4 @@
+using System.Numerics;
 using EightQueensRobot.RobotModel;
 using EightQueensRobot.Utilities;
 
@@ -11,13 +12,13 @@ public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
         DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
         Sungur370 robotModel = new();
         RandomNumberGenerator randomNumberGenerator = new();
+        NullFireflyCache<JointAngles, Vector3> nullFireflyCache = new();
         DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
-        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, nullFireflyCache);
 
         return new FireflyIkSolver(
             exitCriteriaHandler: exitCriteriaHandler,
             robotModel: robotModel,
-            randomNumberGenerator: randomNumberGenerator,
             swarmHandler: swarmHandler
             );
     }
@@ -29,13 +30,13 @@ public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
         Sungur370 robotModel = new();
         RandomNumberGenerator randomNumberGenerator = new();
         DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
-        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
+        NullFireflyCache<JointAngles, Vector3> nullFireflyCache = new();
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, nullFireflyCache);
         WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance, maxIterations);
 
         return new FireflyIkSolver(
             exitCriteriaHandler: exitCriteriaHandler,
             robotModel: robotModel,
-            randomNumberGenerator: randomNumberGenerator,
             swarmHandler: swarmHandler
             );
     }
