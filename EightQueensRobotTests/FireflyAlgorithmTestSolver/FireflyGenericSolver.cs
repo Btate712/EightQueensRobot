@@ -13,7 +13,7 @@ public class FireflyGenericSolver(IFireflyIterationExitCriteriaHandler exitCrite
         int iterationCount = 0;
         Firefly<float[], Vector3>[] swarm = GenerateInitialSwarm();
         swarmHandler.ProcessSwarm(swarm, output);
-        while (!exitCriteriaHandler.CanStopIterating())
+        while (!exitCriteriaHandler.CanStopIterating(output))
         {
             iterationCount++;
             Console.WriteLine($"Iteration: {iterationCount}");

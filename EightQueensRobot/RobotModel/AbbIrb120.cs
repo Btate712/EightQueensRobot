@@ -5,7 +5,8 @@ namespace EightQueensRobot.RobotModel;
 public class AbbIrb120 : IRobotModel
 {
     private DhChain? _dhChain;
-
+    private const float MaxReachLimit = 0.85f;
+    
     private static readonly JointParameters Joint1 = new(
         JointType: JointType.Revolute,
         D: 0.291f,
@@ -114,7 +115,9 @@ public class AbbIrb120 : IRobotModel
                 .Sum();
         }
     }
-    
+
+    public float MaxReach => Joints.Select(j => j.A).Sum() *  MaxReachLimit;
+
     private int GetJointIndex(int jointNumber)
     {
         if (jointNumber > Joints.Length || jointNumber < 1)

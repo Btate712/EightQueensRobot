@@ -6,6 +6,7 @@ namespace EightQueensRobot.RobotModel;
 public class Sungur370 : IRobotModel
 {
     private DhChain? _dhChain;
+    private const float MaxReachLimit = 0.85f;
     
     private static readonly JointParameters Joint1 = new(
         JointType: JointType.Revolute,
@@ -119,6 +120,8 @@ public class Sungur370 : IRobotModel
                 .Sum();
         }
     }
+
+    public float MaxReach => Joints.Select(j => j.A).Sum() * MaxReachLimit;
 
     public int GetDoF()
     {

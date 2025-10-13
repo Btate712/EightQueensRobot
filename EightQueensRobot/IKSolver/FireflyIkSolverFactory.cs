@@ -24,12 +24,13 @@ public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
 
     public IIkSolver<JointAngles> GetWithinToleranceSolver()
     {
+        const int maxIterations = 1000;
         const float tolerance = 0.001f;
         Sungur370 robotModel = new();
         RandomNumberGenerator randomNumberGenerator = new();
         DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
         DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic);
-        WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance);
+        WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance, maxIterations);
 
         return new FireflyIkSolver(
             exitCriteriaHandler: exitCriteriaHandler,

@@ -10,25 +10,50 @@ public class IkSolverRunner
 {
     private const int TargetPositionCount = 100;
     private readonly FireflyIkSolverFactory _factory = new();
-    private readonly IIkSolver<JointAngles> _solver;
+    private readonly IIkSolver<JointAngles> _defaultSolver;
+    private readonly IIkSolver<JointAngles> _withinPositionToleranceSolver;
     private readonly Vector3[] _targetPositions = new Vector3[100];
+    private RandomNumberGenerator _randomNumberGenerator = new();
     
     public IkSolverRunner()
     {
-        _solver = _factory.GetDefaultIkSolver();
-        RandomNumberGenerator randomNumberGenerator = new();
+        _defaultSolver = _factory.GetDefaultIkSolver();
+        _withinPositionToleranceSolver = _factory.GetWithinToleranceSolver();
+        const float maxReach = 1.0f;
+        
         for (int i = 0; i < TargetPositionCount; i++)
         {
-            float x = randomNumberGenerator.GetRandomNumberBetween(-1, 1);
-            float y = randomNumberGenerator.GetRandomNumberBetween(-1, 1);
-            float z = randomNumberGenerator.GetRandomNumberBetween(-1, 1);
-            _targetPositions[i] = new Vector3(x, y, z);
+            bool validValueFound = false;
+
+            while (!validValueFound)
+            {
+                Vector3 targetPosition = GetTargetPosition();
+                if (Vector3.Distance(targetPosition, Vector3.Zero) <= maxReach)
+                {
+                    validValueFound = true;
+                    _targetPositions[i] = targetPosition;
+                }
+            }
         }
+    }
+
+    private Vector3 GetTargetPosition()
+    {
+        float x = _randomNumberGenerator.GetRandomNumberBetween(-1, 1);
+        float y = _randomNumberGenerator.GetRandomNumberBetween(-1, 1);
+        float z = _randomNumberGenerator.GetRandomNumberBetween(-1, 1);
+        return new Vector3(x, y, z);
     }
     
     [Benchmark]
     public void RunDefault()
     {
-        JointAngles[] unused = _targetPositions.Select(targetPosition => _solver.GetJointAnglesForPosition(targetPosition)).ToArray();
+        JointAngles[] unused = _targetPositions.Select(targetPosition => _defaultSolver.GetJointAnglesForPosition(targetPosition)).ToArray();
+    }
+
+    [Benchmark]
+    public void RunWithinPositionTolerance()
+    {
+        JointAngles[] unused = _targetPositions.Select(targetPosition => _withinPositionToleranceSolver.GetJointAnglesForPosition(targetPosition)).ToArray();
     }
 }

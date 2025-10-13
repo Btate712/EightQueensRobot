@@ -9,4 +9,5 @@ public interface IRobotModel : IRobotAngleConstraints
     float GetRotationalSpeed(int jointNumber);
     int GetDoF();
     float RSquaredNormalizationValue { get; }
+    float MaxReach { get; }
 }

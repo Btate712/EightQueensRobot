@@ -13,6 +13,11 @@ public class FireflyIkSolver(
 {
     public JointAngles GetJointAnglesForPosition(Vector3 position)
     {
+        if (Vector3.Distance(position, Vector3.Zero) > robotModel.MaxReach)
+        {
+            throw new Exception($"Position {position} exceeds robot model max reach.");
+        }
+        
         exitCriteriaHandler.Reset();
         Firefly<JointAngles, Vector3>[] swarm = GenerateInitialSwarm();
         swarmHandler.ProcessSwarm(swarm, position);
