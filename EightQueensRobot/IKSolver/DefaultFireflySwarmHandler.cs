@@ -39,6 +39,7 @@ public class DefaultFireflySwarmHandler(
         {
             ProcessFirefly(firefly);
         }
+        fireflyCache.CacheSwarm(_swarm);
     }
 
     public void ConcentrateSwarm()
@@ -94,12 +95,14 @@ public class DefaultFireflySwarmHandler(
     
     private Firefly<JointAngles, Vector3> GenerateFirefly(IRobotModel model)
     {
+        JointAngleBoundaries cachedLimits = fireflyCache.GetCachedBoundaries(_targetPosition);
+
         List<double> angles = [];
         
         for (int joint = 1; joint <= model.GetDoF(); joint++)
         {
-            float min = model.GetMinAngle(joint);
-            float max = model.GetMaxAngle(joint);
+            float min = GetMinAngle(joint, model, cachedLimits);
+            float max = GetMaxAngle(joint, model, cachedLimits);
             float randomJointAngle = randomNumberGenerator.GetRandomNumberBetween(min, max);
             angles.Add(randomJointAngle);
         }
@@ -107,5 +110,27 @@ public class DefaultFireflySwarmHandler(
         JointAngles jointAngles = new(angles.ToArray());
         
         return new Firefly<JointAngles, Vector3>(jointAngles);
+    }
+
+    private float GetMinAngle(int jointNumber, IRobotModel model, JointAngleBoundaries cachedLimits)
+    {
+        float minLimit = cachedLimits == JointAngleBoundaries.Null
+            ? float.MinValue
+            : cachedLimits.GetMinValueForJoint(jointNumber);
+
+        float modelMin = model.GetMinAngle(jointNumber);
+        
+        return Math.Max(minLimit, modelMin);
+    }
+    
+    private float GetMaxAngle(int jointNumber, IRobotModel model, JointAngleBoundaries cachedLimits)
+    {
+        float maxLimit = cachedLimits == JointAngleBoundaries.Null
+            ? float.MaxValue
+            : cachedLimits.GetMaxValueForJoint(jointNumber);
+
+        float modelMin = model.GetMaxAngle(jointNumber);
+        
+        return Math.Min(maxLimit, modelMin);
     }
 }

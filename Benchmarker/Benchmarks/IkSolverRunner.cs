@@ -12,13 +12,19 @@ public class IkSolverRunner
     private readonly FireflyIkSolverFactory _factory = new();
     private readonly IIkSolver<JointAngles> _defaultSolver;
     private readonly IIkSolver<JointAngles> _withinPositionToleranceSolver;
+    private readonly IIkSolver<JointAngles> _defaultWithCachingSolver;
+    private readonly IIkSolver<JointAngles> _withinPositionToleranceWithCachingSolver;
+    private readonly IIkSolver<JointAngles> _swarmSizeOptimizedSolver;
     private readonly Vector3[] _targetPositions = new Vector3[100];
-    private RandomNumberGenerator _randomNumberGenerator = new();
+    private readonly RandomNumberGenerator _randomNumberGenerator = new();
     
     public IkSolverRunner()
     {
         _defaultSolver = _factory.GetDefaultIkSolver();
         _withinPositionToleranceSolver = _factory.GetWithinToleranceSolver();
+        _defaultWithCachingSolver = _factory.GetDefaultIkSolverWithCache();
+        _withinPositionToleranceWithCachingSolver = _factory.GetWithinToleranceSolverWithCache();
+        _swarmSizeOptimizedSolver = _factory.GetSwarmSizeOptimizedSolverWithCache();
         const float maxReach = 1.0f;
         
         for (int i = 0; i < TargetPositionCount; i++)
@@ -55,5 +61,23 @@ public class IkSolverRunner
     public void RunWithinPositionTolerance()
     {
         JointAngles[] unused = _targetPositions.Select(targetPosition => _withinPositionToleranceSolver.GetJointAnglesForPosition(targetPosition)).ToArray();
+    }
+    
+    [Benchmark]
+    public void RunDefaultWithCaching()
+    {
+        JointAngles[] unused = _targetPositions.Select(targetPosition => _defaultWithCachingSolver.GetJointAnglesForPosition(targetPosition)).ToArray();
+    }  
+    
+    [Benchmark]
+    public void RunWithinPositionToleranceWithCaching()
+    {
+        JointAngles[] unused = _targetPositions.Select(targetPosition => _withinPositionToleranceWithCachingSolver.GetJointAnglesForPosition(targetPosition)).ToArray();
+    }
+
+    [Benchmark]
+    public void RunSwarmSizeOptimizedWithinPositionToleranceWithCaching()
+    {
+        JointAngles[] unused = _targetPositions.Select(targetPosition => _swarmSizeOptimizedSolver.GetJointAnglesForPosition(targetPosition)).ToArray();
     }
 }

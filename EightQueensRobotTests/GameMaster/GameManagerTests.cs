@@ -4,7 +4,8 @@ namespace NQueensSolverTests.GameMaster;
 
 public class GameManagerTests
 {
-    [Fact(Skip = "Long running test")]
+    [Fact]
+    // [Fact(Skip = "Long running test")]
     public void Run_ExecutesTheGame()
     {
         // Arrange

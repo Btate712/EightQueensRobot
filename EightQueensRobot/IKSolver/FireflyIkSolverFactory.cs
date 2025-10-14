@@ -40,4 +40,60 @@ public class FireflyIkSolverFactory : IIkSolverFactory<JointAngles>
             swarmHandler: swarmHandler
             );
     }
+    
+    public IIkSolver<JointAngles> GetDefaultIkSolverWithCache()
+    {
+        const int numberOfIterations = 1000;
+        const int cacheDivisionsPerDimension = 8;
+        DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
+        Sungur370 robotModel = new();
+        RandomNumberGenerator randomNumberGenerator = new();
+        FireflyCache fireflyCache = new(robotModel, cacheDivisionsPerDimension);
+        DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, fireflyCache);
+
+        return new FireflyIkSolver(
+            exitCriteriaHandler: exitCriteriaHandler,
+            robotModel: robotModel,
+            swarmHandler: swarmHandler
+        );
+    }
+    
+    public IIkSolver<JointAngles> GetWithinToleranceSolverWithCache()
+    {
+        const int maxIterations = 1000;
+        const float tolerance = 0.001f;
+        const int cacheDivisionsPerDimension = 8;
+        Sungur370 robotModel = new();
+        RandomNumberGenerator randomNumberGenerator = new();
+        DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
+        FireflyCache fireflyCache = new(robotModel, cacheDivisionsPerDimension);
+        DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, fireflyCache);
+        WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance, maxIterations);
+
+        return new FireflyIkSolver(
+            exitCriteriaHandler: exitCriteriaHandler,
+            robotModel: robotModel,
+            swarmHandler: swarmHandler
+        );
+    }    
+    
+    public IIkSolver<JointAngles> GetSwarmSizeOptimizedSolverWithCache()
+    {
+        const int maxIterations = 1000;
+        const float tolerance = 0.001f;
+        const int cacheDivisionsPerDimension = 8;
+        Sungur370 robotModel = new();
+        RandomNumberGenerator randomNumberGenerator = new();
+        DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
+        FireflyCache fireflyCache = new(robotModel, cacheDivisionsPerDimension);
+        SwarmSizeOptimizedSwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, fireflyCache);
+        WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance, maxIterations);
+
+        return new FireflyIkSolver(
+            exitCriteriaHandler: exitCriteriaHandler,
+            robotModel: robotModel,
+            swarmHandler: swarmHandler
+        );
+    }
 }

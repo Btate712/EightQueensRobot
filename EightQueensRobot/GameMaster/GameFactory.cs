@@ -18,6 +18,8 @@ public class GameFactory
         Vector3 boardCorner2 = new(BoardWidth, BoardWidth, 0f);
         Vector3 hopperPosition = new(-0.25f, -0.25f, -0.25f);
         const int numberOfIterations = 1000;
+        const float tolerance = 0.001f;
+        const int divisionsPerDimension = 8;
         
         NQueensSolver eightQueensSolver = new NQueensSolver(NumberOfQueens);
         BoardManager boardManager = new BoardManager(NumberOfQueens, boardCorner1, boardCorner2);
@@ -26,9 +28,9 @@ public class GameFactory
         TextFileWriter writer = new();
         RandomNumberGenerator randomNumberGenerator = new();
         DefaultFireflyAttractionHeuristic heuristic = new(randomNumberGenerator, robotModel);
-        NullFireflyCache<JointAngles, Vector3> nullFireflyCache = new();
+        FireflyCache nullFireflyCache = new(robotModel, divisionsPerDimension);
         DefaultFireflySwarmHandler swarmHandler = new(robotModel, heuristic, randomNumberGenerator, nullFireflyCache);
-        DefaultFireflyIterationExitCriteriaHandler exitCriteriaHandler = new(numberOfIterations);
+        WithinPositionToleranceExitCriteriaHandler exitCriteriaHandler = new(swarmHandler, tolerance, numberOfIterations);
         FireflyIkSolver ikSolver = new(exitCriteriaHandler, robotModel, swarmHandler);
         DefaultMoveController moveController = new(moveTimer, writer, ikSolver, robotModel, hopperPosition);
         QueenPositionManager queenPositionManager = new(NumberOfQueens);
