@@ -5,8 +5,8 @@ The algorithm described in the paper was reproduced as closely as practicable us
 The tool BenchmarkDotNet, was used to establish benchmarks for the baseline algorithm. 100 randomly chosen end-effector positions within the robot’s reachable space were calculated, and the result was divided by 100 to reach an average solution time. Position Error was determined by finding the lowest error value for which unit tests could be shown to reliably pass. Based on these measurement approaches, the solver built for this project produced results similar to those found by Dereli and Köker. The improvement in average solution time over that found by Dereli and Köker is suspected to be due to differences in computer hardware and/or programming language used for simulation.
 
                                 Average time (s)	      Position Error (mm)
-    Dereli and Köker’s results  0.1825	              0.0877
-    This project’s results	    0.14125	              < 0.05
+    Dereli and Köker’s results  0.1825	                  0.0877
+    This project’s results	    0.14125	                  < 0.05
 
 Potential optimization techniques were explored:
 - A.	Limiting iterations to those needed to satisfy a position error of less than 1 mm.
@@ -28,8 +28,8 @@ The same benchmarking approach and 100 target end-effector positions were used f
       Dereli and Köker’s results	              0.1825
       This project baseline	                      0.14125
       Optimization A (position tolerance 1 mm)    0.05049
-      Optimization B (caching)	              0.14039
-      Optimization C (A + B)	              0.03783
+      Optimization B (caching)	                  0.14039
+      Optimization C (A + B)	                  0.03783
       Optimization D (A + B) reduced swarm size   0.04260
 
 Optimization A showed a significant improvement over the baseline algorithm. Since the extreme precision achievable with the baseline algorithm isn’t needed for many applications, the number of iterations, and therefor the number of FK calculations made, could be drastically reduced by stopping iterations as soon as a solution was found that met the required < 1mm error.
